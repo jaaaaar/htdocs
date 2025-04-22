@@ -48,13 +48,13 @@
         Nimi: <input type="text" name="fullname" value="<?php !empty($rida['fullname']) ? print_r($rida['fullname']) : '' ?>"><br>
         Email: <input type="email" name="email" value="<?php !empty($rida['email']) ? print_r($rida['email']) : '' ?>" ><br>
         Age: <input type="number" name="age" min=16 max="88" step="1" value="<?php !empty($rida['age']) ? print_r($rida['age']) : '' ?>"><br>
-        Sugu: <input type="text" name="gender" limit="5" value="<?php !empty($rida['gender']) ? print_r($rida['gender']) : '' ?>"><br>
-        Spordiala: <input type="text" name="category" limit="20" value="<?php !empty($rida['category']) ? print_r($rida['category']) : '' ?>"><br>
+        Sugu: <input type="text" name="gender" value="<?php !empty($rida['gender']) ? print_r($rida['gender']) : '' ?>"><br>
+        Spordiala: <input type="text" name="category" value="<?php !empty($rida['category']) ? print_r($rida['category']) : '' ?>"><br>
         <?php
         if(isset($_GET["muuda"]) && isset($_GET["id"])){ ?>
-        <input type="submit" value="Salvesta_muudatus" name="Salvesta_muudatus"class="btn btn-primary"><br>
+        <input type="submit" value="Salvesta_muudatus" name="Salvesta_muudatus" class="btn btn-primary"><br>
         <?php } else { ?>
-            <input type="submit" value="Salvesta" name="Salvesta"class="btn btn-danger"><br>
+            <input type="submit" value="Salvesta" name="Salvesta" class="btn btn-danger"><br>
             <?php } ?>
     </form>
     <?php
@@ -134,12 +134,12 @@
             echo"<td>".$rida['reg_time']."</td>";
             echo"<td><a class ='btn btn-success' href='?muuda=&id=".$rida['id']."'>Muuda</a></td>";
             echo"<td><a class ='btn btn-danger' href='?kustuta=&id=".$rida['id']."'>Kustuta</a></td>";
-            echo"<tr>";
+            echo"</tr>";
         }
 
 
     ?>
-
+    </table>
     </div>
 
 
