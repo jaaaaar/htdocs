@@ -11,30 +11,70 @@
 
     <div class="container">
     <h1>HKHK spordipäev 2025</h1>
+    <?php
+        if(isset($_GET["muuda"]) && isset($_GET["muuda"])){
+            $id= $_GET["id"];
+            $kuvaparing = "SELECT * FROM sport2025 WHERE id=".$id."";
+            $saada_paring= mysqli_query($yhendus, $kuvaparing);
+            $rida = mysqli_fetch_assoc($saada_paring);
 
+            // var_dump($rida);
+        }
+
+        if(isset($_GET["Salvesta_muudatus"]) && isset($_GET["id"])){
+        $id= $_GET["id"];
+        $fullname = $_GET["fullname"];
+        $email = $_GET["email"];
+        $age = $_GET["age"];
+        $gender = $_GET["gender"];
+        $category = $_GET["category"];
+
+        $muuda_paring="UPDATE sport2025 SET fullname='".$fullname."', email='".$email."', age='".$age."', gender='".$gender."',
+        category='".$category."' WHERE id = ".$id."";
+         
+        // var_dump($muuda_paring);
+
+        $saada_paring= mysqli_query($yhendus, $muuda_paring);
+        $tulemus= mysqli_affected_rows($yhendus);
+        if($tulemus == 1){
+            header ('Location: index.php?msg=Andmed uuendatud');
+          } else {
+            echo "Andmeid ei uuendatud";
+          }
+        }
+    ?>
     <form action="index.php" method="get">
-        Nimi: <input type="text" name="fullname"><br>
-        Email: <input type="email" name="email"><br>
-        Age: <input type="number" name="age" min=16 max="88" step="1"><br>
-        Sugu: <input type="text" name="gender" limit="5"><br>
-        Spordiala: <input type="text" name="category" limit="20"><br>
-        <input type="submit" value="Salvesta" class="btn btn-primary"><br>
+        <input type="hidden" name="id" value="<?php !empty($rida['id']) ? print_r($rida['id']) : '' ?>"><br>
+        Nimi: <input type="text" name="fullname" value="<?php !empty($rida['fullname']) ? print_r($rida['fullname']) : '' ?>"><br>
+        Email: <input type="email" name="email" value="<?php !empty($rida['email']) ? print_r($rida['email']) : '' ?>" ><br>
+        Age: <input type="number" name="age" min=16 max="88" step="1" value="<?php !empty($rida['age']) ? print_r($rida['age']) : '' ?>"><br>
+        Sugu: <input type="text" name="gender" limit="5" value="<?php !empty($rida['gender']) ? print_r($rida['gender']) : '' ?>"><br>
+        Spordiala: <input type="text" name="category" limit="20" value="<?php !empty($rida['category']) ? print_r($rida['category']) : '' ?>"><br>
+        <?php
+        if(isset($_GET["muuda"]) && isset($_GET["id"])){ ?>
+        <input type="submit" value="Salvesta_muudatus" name="Salvesta_muudatus"class="btn btn-primary"><br>
+        <?php } else { ?>
+            <input type="submit" value="Salvesta" name="Salvesta"class="btn btn-danger"><br>
+            <?php } ?>
     </form>
     <?php
-        if (isset($_GET["fullname"]) && !empty($_GET["fullname"])) {
-            echo "hakkan andmeid lisama: ";
-            //INSERT INTO `sport2025` (`id`, `fullname`, `email`, `age`, `gender`, `category`, `reg_time`) VALUES (NULL, 'mari', 'mari@eesti.ee', '23', 'naine', 'korvpall', current_timestamp());
-            $lisa_paring = "INSERT INTO sport2025 (fullname,email,age,gender,category) 
-            VALUES (NULL, 'mari', 'mari@eesti.ee', '23', 'naine', 'korvpall')"; 
-
-            $saada_paring = mysqli_query($yhendus, $lisa_paring);
-            $tulemus = mysqli_affected_rows($yhendus);
-            if ($tulemus ==1) {
-                echo "Kirje edukalt lisatud";
-            } else {
-                echo "Kirjet ei lisatud";
-            }
+      if(isset($_GET["salvesta"]) && !empty($_GET["fullname"])){
+        $fullname = $_GET["fullname"];
+        $email = $_GET["email"];
+        $age = $_GET["age"];
+        $gender = $_GET["gender"];
+        $category = $_GET["category"];
+        
+        $lisa_paring = "INSERT INTO sport2025 (fullname,email,age,gender,category) 
+        VALUES ('".$fullname."', '".$email."', '".$age."', '".$gender."', '".$category."')";        
+        $saada_paring = mysqli_query($yhendus, $lisa_paring);
+        $tulemus = mysqli_affected_rows($yhendus);
+        if($tulemus == 1){
+          echo "Kirje edukalt lisatud";
+        } else {
+          echo "Kirjet ei lisatud";
         }
+      }
     ?>
     <form action="index.php" method="get" class="py-4">
         <input type="text" name="otsi">
@@ -57,6 +97,20 @@
         <td>Kustuta</td>
     </tr>
     <?php
+        if (isset($_GET['msg'])){
+            echo "<div class='alert alert-success'>".$_GET['msg']."</div>";
+        }
+        if (isset($_GET['kustuta']) && isset($_GET['id'])) {
+            $id= $_GET['id'];
+        $kparing = "DELETE FROM sport2025 WHERE id=".$id."";
+        $saada_paring= mysqli_query($yhendus, $kparing);
+        $tulemus= mysqli_affected_rows($yhendus);
+        if($tulemus == 1){
+            header ('Location: index.php?msg=Rida kustutatud');
+          } else {
+            echo "Kirjet ei kustutatud";
+          }
+        }
     if (isset($_GET["otsi"]) && !empty($_GET["otsi"])) {
         $s = $_GET["otsi"];
         $cat = $_GET["cat"];
@@ -78,8 +132,8 @@
             echo"<td>".$rida['gender']."</td>";
             echo"<td>".$rida['category']."</td>";
             echo"<td>".$rida['reg_time']."</td>";
-            echo"<td><a class ='btn btn-success' href=''>Muuda</a></td>";
-            echo"<td><a class ='btn btn-danger' href=''>Kustuta</a></td>";
+            echo"<td><a class ='btn btn-success' href='?muuda=&id=".$rida['id']."'>Muuda</a></td>";
+            echo"<td><a class ='btn btn-danger' href='?kustuta=&id=".$rida['id']."'>Kustuta</a></td>";
             echo"<tr>";
         }
 
