@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="et">
 <head>
     <meta charset="utf-8">
@@ -21,8 +20,8 @@
                 <input name="Password" type="password" class="form-control">
             </div>
 
-            <button name="submit" type="submit" value="login" class="btn btn-primary w-100">Logi sisse</button>
-        
+            <button name="submit" type="submit" value="login" class="btn btn-light w-100">Logi sisse</button>
+
             <?php 
             session_start();   
             if(isset($_POST['submit'])){
