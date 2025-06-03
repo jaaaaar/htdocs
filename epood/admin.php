@@ -21,10 +21,6 @@ if(!isset($_SESSION['UserData']['Username'])){
             <h1>Administraatori leht</h1>
             <a href="login/logout.php" class="btn btn-secondary">Logi välja</a>
         </div>
-
-
-
-
         <div class="card mb-5">
             <div class="card-body shadow">
                 <h2 class="card-title">Lisa uus temu kaup</h2>
@@ -32,19 +28,14 @@ if(!isset($_SESSION['UserData']['Username'])){
                     <div class="mb-3">
               <label class="form-label">temu toode:</label>
               <input type="text" name="toote_nimi" class="form-control" required>
-                    </div>
-
-
-
-
-                    
+                    </div>      
                     <div class="mb-3">
                         <label class="form-label">kauba hind:</label>
                         <input type="number" name="toote_hind" class="form-control" required>
                    </div>
                     <div class="mb-3">
-             <label class="form-label">Kaubast pilt:</label>
-                <input type="file" name="toote_pilt" class="form-control" accept=".png, .jpg, .jfif" required>
+                        <label class="form-label">Kaubast pilt:</label>
+                        <input type="file" name="toote_pilt" class="form-control" accept="pildid/png, pildid/jpg, pildid/jfif, pildid/*" required>
                   </div>
 
           <button type="submit" name="lisa" class="btn btn-primary">Lisa kaup</button>
